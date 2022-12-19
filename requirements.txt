@@ -1,0 +1,3 @@
+kolla-ansible==10.4.0
+ansible<2.10
+python-openstackclient==5.2.2
