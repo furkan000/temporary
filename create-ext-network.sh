@@ -4,11 +4,6 @@
 #
 # An OpenRC File has to be sourced
 
-# Test if OpenStack credentials are sourced           
-if [[ "${OS_USERNAME}" == "" ]]; then          
-    echo "No Keystone credentials specified. Run source ./admin-openrc.sh"   
-    exit               
-fi
 
 EXT_NET_CIDR="10.122.0.0/24"
 EXT_NET_GATEWAY="10.122.0.1"
@@ -16,6 +11,13 @@ EXT_NET_GATEWAY="10.122.0.1"
 ADMIN_NET_CIDR="10.0.0.0/24"
 ADMIN_NET_GATEWAY="10.0.0.1"
 ADMIN_NET_NAMESERVER="8.8.8.8"
+
+
+# Test if OS credentials are sourced
+if [[ "${OS_USERNAME}" == "" ]]; then
+    echo "No Keystone credentials specified"
+    exit
+fi
 
 
 echo ""

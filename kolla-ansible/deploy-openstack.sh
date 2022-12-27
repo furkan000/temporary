@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate all openstack passwords and keys and copy the file to working dir
-kolla-genpwd -p ./passwords.yml
+kolla-genpwd && cp /etc/kolla/passwords.yml ./
 
 # Prepare VMs for kolla-ansible
 ansible-playbook -i ./multinode ./pre-bootstrap.yml | tee ./pre-bootstrap.log
@@ -12,11 +12,11 @@ kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inve
 # Fix a common bug in /etc/hosts
 ansible-playbook -i ./multinode ./fix-hosts-file.yml
 
-# Deploy OpenStack
-kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inventory ./multinode deploy | tee ./prechecks.log
+# Run prechecks to verify that the VMs are ready for OpenStack deployment
+kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inventory ./multinode --skip-tags haproxy prechecks | tee ./prechecks.log
 
-# create ./admin-rc.sh (you might need to change the ownership of ./admin-rc.sh)
-kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inventory ./multinode post-deploy
+# Deploy OpenStack
+kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inventory ./multinode deploy | tee ./deploy.log
 
 # Destroy OpenStack deployment
 # kolla-ansible --passwords ./passwords.yml --configdir "$(readlink -e ./)" --inventory ./multinode --yes-i-really-really-mean-it destroy

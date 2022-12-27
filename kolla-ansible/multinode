@@ -1,18 +1,18 @@
 [all:vars]
-ansible_python_interpreter="/home/test/venv/bin/python"
-ansible_user=test
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=[******user name on gc VMs******]
 ansible_become=True
-ansible_private_key_file="/home/test/.ssh/id_rsa"
+ansible_private_key_file=[******Path to private key file used to connect to gc VMs******]
 
 [control]
-"[******<controller VM public IP>******]"
+[******public IP of controller VM******]
 
 [network:children]
 control
 
 [compute]
-"[******<compute1 VM public IP>******]"
-"[******<compute2 VM public IP>******]"
+[******public IP of compute1 VM******]
+[******public IP of compute2 VM******]
 
 [monitoring:children]
 control

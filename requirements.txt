@@ -1,3 +1,4 @@
-kolla-ansible==10.4.0
+kolla-ansible==11.0.0
+# kolla-ansible requires ansible==2.9
 ansible<2.10
 python-openstackclient==5.2.2
